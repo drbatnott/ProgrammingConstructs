@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+//the following library allows you to use Lists of complex data types
+using System.Collections.Generic;
 
 namespace ProgrammingConstructs
 {
@@ -13,7 +15,7 @@ namespace ProgrammingConstructs
         /// It will calculate the BMI based on data entry and try to say if the person
         /// is over weight
         /// </summary>
-        public static void EnterData()
+        public static void EnterData(List<string> l)
         {
             TextWriter textWriter = new StreamWriter("OurData.csv", true);
             Console.WriteLine("Hello Please Enter Your Data");
@@ -47,11 +49,24 @@ namespace ProgrammingConstructs
                 //in two places
                 Console.WriteLine(message);
                 textWriter.WriteLine(message);
-
+                l.Add(message);
                 if (bmi > 25)
                 {
                     Console.WriteLine("You are too heavy");
                 }
+                // == is if things are equal
+                // != asks are they not equal
+                if(bmi == 25)
+                {
+                    Console.WriteLine("BMI is 25");
+                }
+                else
+                {
+                    Console.WriteLine("BMI is not 25");
+                }
+                bool t = true;
+                bool f = !t;
+                Console.WriteLine(f); // this will write false
 
                 Console.Write("More data? Enter yes or no");
                 yn = Console.ReadLine();
@@ -64,13 +79,14 @@ namespace ProgrammingConstructs
         /// This will loop through the unstructured data in OurData.csv and
         /// print out each line in the file
         /// </summary>
-        public static void WriteData()
+        public static void WriteData(List<string> l)
         {
             string inputLine;
             TextReader textReader = new StreamReader("OurData.csv");
             while ((inputLine = textReader.ReadLine()) != null)
             {
                 Console.WriteLine(inputLine);
+                l.Add(inputLine);
             }
             textReader.Close();
             Console.ReadLine();
@@ -83,27 +99,51 @@ namespace ProgrammingConstructs
         static void Main(string[] args)
         {
             //A new selection type called a switch case
-            
+            List<string> list = new List<string>();
             Console.Write("Do you want to print data or add new? enter 1 to add new and 0 to print" +
                 " or 3 to view data and then add new.");
             int choice = Int16.Parse(Console.ReadLine());
             switch (choice)
             {
                 case 0:
-                    WriteData();
+                    WriteData(list);
                     break;
                 case 1:
-                    EnterData();
+                    EnterData(list);
                     break;
                 case 3:
-                    WriteData();
-                    EnterData();
+                    WriteData(list);
+                    EnterData(list);
                     break;
                 default:
                     Console.WriteLine("Not a valid choice");
                     
                     break;
                 
+            }
+            //the next thing we will use if a foreach loop 
+            //it is a different sort of iterator
+            Console.WriteLine("The data is now");
+            foreach(string s in list)
+            {
+                Console.WriteLine(s);
+            }
+            //the following loop is one normally used when we know the amount of 
+            //data we are going to loop through.
+            //for list the best way to loop through this is the foreach loop
+            //but we could use the for loop in this case because we know how long
+            //list is at this point
+            int count = list.Count;
+            //for i = 0 while i < count do what is in the {} then do the final
+            // thing which is i++ ++ adds one to the value of i
+            for(int i = 0; i < count; i++)
+            {
+                //in most programming languages arrays start at 0
+                //so the last element in the array is count-1
+                //so we stop once i is no longer less than count
+                //i +=2 will add 2 to i
+                // i *= 2; will replace i by 2*i
+                Console.WriteLine(list[i]);
             }
             Console.ReadLine();
             
